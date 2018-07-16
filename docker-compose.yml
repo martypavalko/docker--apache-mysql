@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  apache_webserver:
+    build:
+      context: ./bin/webserver
+    container_name: 'apache_webserver'
+    ports:
+      - "9001:80"
+    links:
+      - db
+    volumes:
+      - ./www:/var/www/html
+  db:
+    build: ./bin/mysql
+    container_name: 'db'
+    restart: 'always'
+    ports: 
+      - 9003:3306
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
